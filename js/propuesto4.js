@@ -1,30 +1,35 @@
-window.addEventListener("load", init); 
+window.addEventListener("load", cargaManejadores);
 
-function queAnimal(animal) {
-    document.getElementById("ultimo").innerHTML = "<h1>" +animal +"</h1>";
-}
-
-function manejadora(e) {
-    if (e.target.class == "perro") {
-        aumentarContador(e.target.class);
-        queAnimal(e.target.class);
-    } else if (e.target.class == "gato") {
-        aumentarContador(e.target.class);
-        queAnimal();
+function cargaManejadores() {
+   /* 
+   //Podemos añadir los escuchadores primero a los perros y luego a los gatos, o bien seleccionarlos a la vez
+    
+   var perros = document.getElementsByClassName("perro");
+    for (let e of perros) {
+            e.addEventListener('click', hasclicadoundiv);
     }
+    var gatos = document.getElementsByClassName("gato");
+    for (let e of gatos) {
+            e.addEventListener('click', hasclicadoundiv);
+    }*/
+
+    let animales = document.querySelectorAll(".gato,.perro");
+    Array.from(animales).forEach(a=>a.addEventListener('click', hasclicadoundiv))
 }
 
-function aumentarContador(animal){
-    if(document.getElementByClassName(animal).nextSibling != "Sin pulsaciones"){
-        document.getElementByClassName(animal).nextSibling.innerHTML +=1;
-    } 
-    else{
-        document.getElementById(animal).nextSibling = 0;
-    }
-}
+function hasclicadoundiv(evento) {
+    var elem = evento.target;
 
-function init(){
-    document.getElementsByClassName("perro").addEventListener("click", manejadora(), false);
-    document.getElementsByClassName("gato").addEventListener("click", manejadora(), false);
+    //primero modificamos la parte verde
+    document.getElementById("ultimo").innerText = 
+                                     elem.className;   
+
+
+       //m es la caja rosa con las pulsaciones
+      let m=elem.parentNode.querySelector(".mensaje"); //otra forma: let m=elem.parentNode.getElementsByClassName("mensaje")[0];
+    
+      if (m.innerText == "Sin pulsaciones")
+            m.innerText = 1;
+        else
+            m.innerText = parseInt(m.innerText) + 1;
 }
- 
